@@ -10,7 +10,7 @@ from time import sleep
 from datetime import datetime
 
 import sys
-import spi
+import spidev
 
 
 VERBOSE_MODE = False # toggle verbosity
@@ -137,7 +137,7 @@ class Switch(InputItem):
 
 # functions
 def get_spi_handler():
-    return spi.SPI(0,1) # spi.SPI(X,Y) is /dev/spidevX.Y
+    return spidev.SpiDev(0,0) # spi.SPI(X,Y) is /dev/spidevX.Y
 
 def init(init_ports=True):
     """Initialises the PiFace"""
@@ -147,6 +147,8 @@ def init(init_ports=True):
     global spi_handler
     try:
         spi_handler = get_spi_handler()
+        spi_handler.transfer = spi_handler.xfer
+        
     except spi.error as error:
         raise InitError(error)
 

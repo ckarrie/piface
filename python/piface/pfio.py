@@ -135,9 +135,13 @@ class Switch(InputItem):
             InputItem.__init__(self, switch_number, handler)
 
 
+class MySpiDev(spidev.SpiDev):
+    def transfer(self, *args, **kwargs):
+        return self.xfer(*args, **kwargs)
+
 # functions
 def get_spi_handler():
-    return spidev.SpiDev(0,0) # spi.SPI(X,Y) is /dev/spidevX.Y
+    return MySpiDev() # spi.SPI(X,Y) is /dev/spidevX.Y
 
 def init(init_ports=True):
     """Initialises the PiFace"""
@@ -147,7 +151,6 @@ def init(init_ports=True):
     global spi_handler
     try:
         spi_handler = get_spi_handler()
-        spi_handler.transfer = spi_handler.xfer
         
     except Exception as e:
         raise InitError(e)

@@ -149,8 +149,8 @@ def init(init_ports=True):
         spi_handler = get_spi_handler()
         spi_handler.transfer = spi_handler.xfer
         
-    except spi.error as error:
-        raise InitError(error)
+    except Exception as e:
+        raise InitError(e)
 
     if init_ports:
         # set up the ports

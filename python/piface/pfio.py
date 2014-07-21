@@ -137,7 +137,7 @@ class Switch(InputItem):
 
 # functions
 def get_spi_handler():
-    return spidev.SpiDec() # spi.SPI(X,Y) is /dev/spidevX.Y
+    return spidev.SpiDev() # spi.SPI(X,Y) is /dev/spidevX.Y
 
 def init(init_ports=True):
     """Initialises the PiFace"""

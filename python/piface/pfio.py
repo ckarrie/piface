@@ -135,13 +135,9 @@ class Switch(InputItem):
             InputItem.__init__(self, switch_number, handler)
 
 
-class MySpiDev(spidev.SpiDev):
-    def transfer(self, *args, **kwargs):
-        return self.xfer(*args, **kwargs)
-
 # functions
 def get_spi_handler():
-    return MySpiDev() # spi.SPI(X,Y) is /dev/spidevX.Y
+    return spidev.SpiDec() # spi.SPI(X,Y) is /dev/spidevX.Y
 
 def init(init_ports=True):
     """Initialises the PiFace"""
@@ -367,7 +363,7 @@ def send(spi_commands, custom_spi=False):
             __pfio_print("transfering data: 0x%06x" % datum_tx)
 
         # transfer the data string
-        returned_values = spi_handler.transfer("%06x" % datum_tx, 3)
+        returned_values = spi_handler.xfer("%06x" % datum_tx, 3)
         datum_rx = byte_cat(returned_values)
 
         returned_values_list.append(returned_values)
